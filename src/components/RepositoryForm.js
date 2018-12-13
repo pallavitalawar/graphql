@@ -1,18 +1,18 @@
-import React from "react";
-import { Input, Button, Label } from "../styles/styles";
+import React from 'react';
+import { Input, Button, Label } from '../styles/styles';
 
 const RepositoryForm = ({ onSubmit, onChange, path, className }) => {
   return (
     <form onSubmit={onSubmit} className={className}>
-      <Label htmlFor="url">Show open issues for https://github.com/</Label>
+      <Label htmlFor='url'>Show open issues for https://github.com/</Label>
       <Input
-        id="url"
-        type="text"
+        id='url'
+        type='text'
         value={path}
         onChange={onChange}
-        style={{ width: "300px" }}
+        style={{ width: '300px' }}
       />
-      <Button type="submit" primary margin>
+      <Button type='submit' primary margin>
         Search
       </Button>
     </form>

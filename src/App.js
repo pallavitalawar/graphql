@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import { withApollo } from "react-apollo";
-import Header from "./components/Header";
-import Organization from "./components/Organization";
-import RepositoryForm from "./components/RepositoryForm";
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import { withApollo } from 'react-apollo';
+import Header from './components/Header';
+import Organization from './components/Organization';
+import RepositoryForm from './components/RepositoryForm';
 
 const Main = styled.main`
   font-size: 14px;
@@ -14,33 +14,31 @@ const StyledRepositoryForm = styled(RepositoryForm)`
   margin-bottom: 20px;
 `;
 
-const TITLE = "Learning GraphQL and Styled Components";
+const TITLE = 'Learning GraphQL and Styled Components';
+
+const setPath = value => {
+  return function update() {
+    return {
+      path: value,
+    };
+  };
+};
 
 class App extends Component {
   state = {
-    path: "the-road-to-learn-react/the-road-to-learn-react",
-    organization: "the-road-to-learn-react",
-    errors: null
+    path: 'the-road-to-learn-react/the-road-to-learn-react',
   };
 
   onChange = event => {
-    this.setState({
-      path: event.target.value,
-      organization: event.target.value.split("/")[0]
-    });
+    this.setState(setPath(event.target.value));
   };
 
   onSubmit = event => {
-    // fetch data
-    const [organization] = this.state.path.split("/");
-
     event.preventDefault();
-    debugger;
-    this.setState({ organization });
   };
 
   render() {
-    const { path, organization } = this.state;
+    const { path } = this.state;
     return (
       <div>
         <Header title={TITLE} />
@@ -51,11 +49,7 @@ class App extends Component {
             path={path}
           />
           {/* Here comes the result! */}
-          {organization ? (
-            <Organization path={path} />
-          ) : (
-            <p>No information yet ...</p>
-          )}
+          {path ? <Organization path={path} /> : <p>No information yet ...</p>}
         </Main>
       </div>
     );

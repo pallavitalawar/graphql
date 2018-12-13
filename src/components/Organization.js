@@ -1,40 +1,8 @@
-import React from "react";
-import { getIssuesOfRepositoryQuery } from "../queries";
-import { Query } from "react-apollo";
-import Starer from "./Starer";
-import {
-  Label,
-  DisplayValue,
-  FlexContainer,
-  UnorderedList,
-  Button
-} from "../styles/styles";
-
-const RepositoryDetails = ({
-  organization,
-  organizationName,
-  repositoryName
-}) => (
-  <React.Fragment>
-    <FlexContainer>
-      <DisplayValue>
-        <Label>Organization:</Label> <span>{organization.name}</span>
-      </DisplayValue>
-      <DisplayValue>
-        <Label>Repository:</Label>
-        <span>
-          {organization.repository.name}
-          <Starer
-            viewerHasStarred={organization.repository.viewerHasStarred}
-            repositoryId={organization.repository.id}
-            organization={organizationName}
-            repository={repositoryName}
-          />
-        </span>
-      </DisplayValue>
-    </FlexContainer>
-  </React.Fragment>
-);
+import React from 'react';
+import { getIssuesOfRepositoryQuery } from '../queries';
+import { Query } from 'react-apollo';
+import RepositoryDetails from './RepositoryDetails';
+import { UnorderedList, Button } from '../styles/styles';
 
 const updateIssues = (prev, { fetchMoreResult }) => {
   if (!fetchMoreResult) return prev;
@@ -48,31 +16,31 @@ const updateIssues = (prev, { fetchMoreResult }) => {
           {
             edges: [
               ...prev.organization.repository.issues.edges,
-              ...fetchMoreResult.organization.repository.issues.edges
-            ]
-          }
-        )
-      })
-    })
+              ...fetchMoreResult.organization.repository.issues.edges,
+            ],
+          },
+        ),
+      }),
+    }),
   });
 };
 
 const Organization = ({ path }) => {
-  const [organizationName, repositoryName] = path.split("/");
-  if (organizationName && repositoryName) {
+  const [organizationLogin, repositoryName] = path.split('/');
+  if (organizationLogin && repositoryName) {
     return (
       <Query
         query={getIssuesOfRepositoryQuery}
         variables={{
-          organization: organizationName,
-          repository: repositoryName
+          organization: organizationLogin,
+          repository: repositoryName,
         }}
       >
         {({ data, loading, error, fetchMore }) => {
-          if (loading) return "Loading..";
+          if (loading) return 'Loading..';
           if (error) return <p>{error.message}</p>;
           let {
-            organization: { repository }
+            organization: { repository },
           } = data;
 
           return (
@@ -80,15 +48,14 @@ const Organization = ({ path }) => {
               {!repository && (
                 <React.Fragment>
                   No repository with the name <b>{repositoryName}</b> found in
-                  organization <b>{organizationName}</b>
+                  organization <b>{organizationLogin}</b>
                 </React.Fragment>
               )}
               {repository && (
                 <React.Fragment>
                   <RepositoryDetails
                     organization={data.organization}
-                    organizationName={organizationName}
-                    repositoryName={repositoryName}
+                    organizationLogin={organizationLogin}
                   />
                   <UnorderedList>
                     {repository.issues.edges.map(issue => (
@@ -104,9 +71,9 @@ const Organization = ({ path }) => {
                       onClick={() =>
                         fetchMore({
                           variables: {
-                            after: repository.issues.pageInfo.endCursor
+                            after: repository.issues.pageInfo.endCursor,
                           },
-                          updateQuery: updateIssues
+                          updateQuery: updateIssues,
                         })
                       }
                     >
