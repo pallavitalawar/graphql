@@ -1,7 +1,7 @@
 import React from 'react';
 import { Mutation } from 'react-apollo';
-import { addStarMutation, removeStarMutation } from '../mutations';
-import { getIssuesOfRepositoryQuery } from '../queries';
+import { ADD_STAR, REMOVE_STAR } from '../mutations';
+import { GET_ISSUES_OF_REPOSITORY } from '../queries';
 import { Button } from '../styles/styles';
 
 const Starer = ({
@@ -10,9 +10,31 @@ const Starer = ({
   organization,
   repository,
 }) => {
-  let mutation = viewerHasStarred ? removeStarMutation : addStarMutation;
+  let mutation = viewerHasStarred ? REMOVE_STAR : ADD_STAR;
   return (
-    <Mutation mutation={mutation}>
+    <Mutation
+      mutation={mutation}
+      update={(cache, { data }) => {
+        const { organization: org } = cache.readQuery({
+          query: GET_ISSUES_OF_REPOSITORY,
+          variables: {
+            organization,
+            repository,
+          },
+        });
+        const { starrable } = viewerHasStarred ? data.removeStar : data.addStar;
+        org.repository.viewerHasStarred = starrable.viewerHasStarred;
+
+        cache.writeQuery({
+          query: GET_ISSUES_OF_REPOSITORY,
+          data: { organization: { ...org } },
+          variables: {
+            organization,
+            repository,
+          },
+        });
+      }}
+    >
       {starer => (
         <Button
           small
@@ -21,12 +43,6 @@ const Starer = ({
           onClick={() =>
             starer({
               variables: { input: { starrableId: repositoryId } },
-              refetchQueries: [
-                {
-                  query: getIssuesOfRepositoryQuery,
-                  variables: { organization, repository },
-                },
-              ],
             })
           }
         >

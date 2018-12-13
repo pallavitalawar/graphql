@@ -4,7 +4,9 @@ import { Input, Button, Label } from '../styles/styles';
 const RepositoryForm = ({ onSubmit, onChange, path, className }) => {
   return (
     <form onSubmit={onSubmit} className={className}>
-      <Label htmlFor='url'>Show open issues for https://github.com/</Label>
+      <Label htmlFor='url'>
+        Enter URL for repository <small>(Format: organiztion/repository)</small>
+      </Label>
       <Input
         id='url'
         type='text'

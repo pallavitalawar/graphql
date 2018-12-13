@@ -30,7 +30,7 @@ export const GET_REPOSITORY_OF_ORGANISATON = gql`
   }
 `;
 
-export const getIssuesOfRepositoryQuery = gql`
+export const GET_ISSUES_OF_REPOSITORY = gql`
   query getIssuesOfRepo(
     $organization: String!
     $repository: String!

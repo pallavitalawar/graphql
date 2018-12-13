@@ -1,5 +1,5 @@
 import React from 'react';
-import { getIssuesOfRepositoryQuery } from '../queries';
+import { GET_ISSUES_OF_REPOSITORY } from '../queries';
 import { Query } from 'react-apollo';
 import RepositoryDetails from './RepositoryDetails';
 import { UnorderedList, Button } from '../styles/styles';
@@ -30,7 +30,7 @@ const Organization = ({ path }) => {
   if (organizationLogin && repositoryName) {
     return (
       <Query
-        query={getIssuesOfRepositoryQuery}
+        query={GET_ISSUES_OF_REPOSITORY}
         variables={{
           organization: organizationLogin,
           repository: repositoryName,

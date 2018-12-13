@@ -1,16 +1,20 @@
 import gql from 'graphql-tag';
 
-export const addStarMutation = gql`
+export const ADD_STAR = gql`
   mutation addStar($input: AddStarInput!) {
     addStar(input: $input) {
-      clientMutationId
+      starrable {
+        viewerHasStarred
+      }
     }
   }
 `;
-export const removeStarMutation = gql`
+export const REMOVE_STAR = gql`
   mutation removeStar($input: RemoveStarInput!) {
     removeStar(input: $input) {
-      clientMutationId
+      starrable {
+        viewerHasStarred
+      }
     }
   }
 `;

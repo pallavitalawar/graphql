@@ -28,6 +28,11 @@ export const Button = styled.button`
 export const Label = styled.label`
   display: block;
   font-weight: bold;
+
+  small {
+    font-weight: normal;
+    font-size: 0.7em;
+  }
 `;
 
 export const FlexContainer = styled.div`
