@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
-import { ApolloClient, InMemoryCache, ApolloLink } from 'apollo-boost';
+import { ApolloClient, InMemoryCache } from 'apollo-boost';
 import { createHttpLink } from 'apollo-link-http';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
@@ -18,11 +18,9 @@ const httpLink = createHttpLink({
 
 const cache = new InMemoryCache();
 
-const link = ApolloLink.from([httpLink]);
-
 const client = new ApolloClient({
   cache,
-  link,
+  link: httpLink,
 });
 
 ReactDOM.render(

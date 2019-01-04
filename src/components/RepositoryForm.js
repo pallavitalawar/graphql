@@ -5,7 +5,8 @@ const RepositoryForm = ({ onSubmit, onChange, path, className }) => {
   return (
     <form onSubmit={onSubmit} className={className}>
       <Label htmlFor='url'>
-        Enter URL for repository <small>(Format: organiztion/repository)</small>
+        Enter path for repository{' '}
+        <small>(Format: organiztion/repository)</small>
       </Label>
       <Input
         id='url'
